@@ -39,7 +39,7 @@ tennisNegros.alt = "";
 tennisNegros.src = "./img/thumbs/negro.jpg";
 
 product.forEach((p,index)=>{
-    if(index <4){
+    if(index < 4){
         const image = document.createElement('img');
         image.classList.add('producto__thumb-img');
         image.alt = "";
@@ -95,12 +95,12 @@ container$1.addEventListener('click',(e)=>{
         if(e.target.closest('button').id === "disminuir-cantidad"){
             if(cantidad > 1){
                 cantidad = cantidad - 1;
-                tagCantidad.value = cantidad;
+                tagCantidad.value = cantidad.toString();
             }
             
         }else if(e.target.closest('button').id === "incrementar-cantidad"){
             cantidad = cantidad + 1;
-            tagCantidad.value = cantidad;
+            tagCantidad.value = cantidad.toString();
         }
     }
 });
@@ -131,5 +131,41 @@ container.addEventListener('click',(e)=>{
 carrito.addEventListener('click',(e)=>{
     if(e.target.closest('button').dataset.accion === "cerrar-carrito"){
         cerrarCarrito();
+    }
+});
+
+/**Agregar producto al carrito */
+
+/**Nombre
+ * cantidad
+ * tamaño
+ * color
+ * precio total, dos veces
+ */
+
+
+const productContainer = document.querySelector('.producto__contenedor-info');
+
+const nombreProducto = document.querySelector('.producto__nombre').innerHTML;
+const cantProducto = parseInt(document.querySelector('#cantidad').value);
+const colores = document.getElementsByName('color');
+const sizes = document.getElementsByName('tamaño');
+
+
+productContainer.addEventListener('click',(e)=>{
+    if(e.target.closest('#agregar-al-carrito')){
+        console.log(nombreProducto);
+        console.log(cantProducto);
+        colores.forEach((color)=>{
+            if(color.checked === true){
+                console.log(color.value);
+            }
+        });
+
+        sizes.forEach((size)=>{
+            if(size.checked === true){
+                console.log(size.value);
+            }
+        });
     }
 });

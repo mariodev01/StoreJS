@@ -16,7 +16,7 @@ tennisNegros.alt = "";
 tennisNegros.src = "./img/thumbs/negro.jpg";
 
 product.forEach((p,index)=>{
-    if(index <4){
+    if(index < 4){
         const image = document.createElement('img');
         image.classList.add('producto__thumb-img');
         image.alt = ""

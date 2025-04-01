@@ -10,12 +10,12 @@ container.addEventListener('click',(e)=>{
         if(e.target.closest('button').id === "disminuir-cantidad"){
             if(cantidad > 1){
                 cantidad = cantidad - 1;
-                tagCantidad.value = cantidad
+                tagCantidad.value = cantidad.toString()
             }
             
         }else if(e.target.closest('button').id === "incrementar-cantidad"){
             cantidad = cantidad + 1;
-            tagCantidad.value = cantidad
+            tagCantidad.value = cantidad.toString()
         }
     }
 });
