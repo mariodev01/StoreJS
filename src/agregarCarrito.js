@@ -11,7 +11,7 @@
 const productContainer = document.querySelector('.producto__contenedor-info');
 
 const nombreProducto = document.querySelector('.producto__nombre').innerHTML;
-const cantProducto = parseInt(document.querySelector('#cantidad').value);
+const cantProducto = document.querySelector('#cantidad');
 const colores = document.getElementsByName('color');
 const sizes = document.getElementsByName('tamaño');
 
@@ -19,7 +19,7 @@ const sizes = document.getElementsByName('tamaño');
 productContainer.addEventListener('click',(e)=>{
     if(e.target.closest('#agregar-al-carrito')){
         console.log(nombreProducto);
-        console.log(cantProducto);
+        console.log(cantProducto.value);
         colores.forEach((color)=>{
             if(color.checked === true){
                 console.log(color.value);
