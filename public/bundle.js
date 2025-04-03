@@ -134,10 +134,10 @@ carrito.addEventListener('click',(e)=>{
     }
 });
 
-function mostrarDataCarrito(nombre,cantidad,color,size){
+function mostrarDataCarrito(nombre,cantidad,color,size,imagenActiva){
     const body = `<div class="carrito__producto">
 							<div class="carrito__producto-info">
-								<img src="./img/tennis/1.jpg" alt="" class="carrito__thumb" />
+								<img src="${imagenActiva}" alt="" class="carrito__thumb" />
 								<div>
 									<p class="carrito__producto-nombre">
 										<span class="carrito__producto-cantidad">${cantidad} x </span>${nombre}
@@ -185,6 +185,8 @@ const nombreProducto = document.querySelector('.producto__nombre').innerHTML;
 const cantProducto = document.querySelector('#cantidad');
 const colores = document.getElementsByName('color');
 const sizes = document.getElementsByName('tamaño');
+const imagenActual = document.querySelector('.producto__imagen');
+
 
 const carritoBody = document.querySelector('.carrito__body');
 
@@ -204,11 +206,14 @@ productContainer.addEventListener('click',(e)=>{
             }
         });
 
-    const body = mostrarDataCarrito(nombreProducto,cantProducto.value,color,size);
+    const body = mostrarDataCarrito(nombreProducto,cantProducto.value,color,size,imagenActual.src);
     //console.log(body);
 
     carritoBody.innerHTML = body;
     abrirCarrito();
 
+    /**tengo que hacer la logica de cuando sea un color diferente pos que se agregue otro producto y no se sobreescriba el que ya esta,
+     * agregar tambien el precio de la data, y que se calcule por la cantidad
+     */
     }
 });

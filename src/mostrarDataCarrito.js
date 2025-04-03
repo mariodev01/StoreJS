@@ -1,7 +1,7 @@
-export default function(nombre,cantidad,color,size){
+export default function(nombre,cantidad,color,size,imagenActiva){
     const body = `<div class="carrito__producto">
 							<div class="carrito__producto-info">
-								<img src="./img/tennis/1.jpg" alt="" class="carrito__thumb" />
+								<img src="${imagenActiva}" alt="" class="carrito__thumb" />
 								<div>
 									<p class="carrito__producto-nombre">
 										<span class="carrito__producto-cantidad">${cantidad} x </span>${nombre}
