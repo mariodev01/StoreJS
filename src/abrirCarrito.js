@@ -26,3 +26,5 @@ carrito.addEventListener('click',(e)=>{
         cerrarCarrito();
     }
 });
+
+export {abrirCarrito};

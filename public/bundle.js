@@ -109,13 +109,13 @@ const container = document.querySelector('.header__menu');
 
 const carrito = document.getElementById("carrito");
 
-const carritoBody = carrito.querySelector('.carrito__body').querySelector('.carrito__aviso-sin-productos');
+const carritoBody$1 = carrito.querySelector('.carrito__body').querySelector('.carrito__aviso-sin-productos');
 
 /**Mario, tienes que usar mas funciones. tu tira ese codigo asi plain xD */
 
 const abrirCarrito = ()=>{
     carrito.classList.add("carrito--active");
-    carritoBody.style.display = 'block';
+    carritoBody$1.style.display = 'block';
 };
 
 const cerrarCarrito = ()=>{
@@ -134,6 +134,41 @@ carrito.addEventListener('click',(e)=>{
     }
 });
 
+function mostrarDataCarrito(nombre,cantidad,color,size){
+    const body = `<div class="carrito__producto">
+							<div class="carrito__producto-info">
+								<img src="./img/tennis/1.jpg" alt="" class="carrito__thumb" />
+								<div>
+									<p class="carrito__producto-nombre">
+										<span class="carrito__producto-cantidad">${cantidad} x </span>${nombre}
+									</p>
+									<p class="carrito__producto-propiedades">
+										Tamaño:<span>${size}</span> Color:<span>${color}</span>
+									</p>
+								</div>
+							</div>
+							<div class="carrito__producto-contenedor-precio">
+								<button class="carrito__btn-eliminar-item" data-accion="eliminar-item-carrito">
+									<svg
+										xmlns="http://www.w3.org/2000/svg"
+										width="16"
+										height="16"
+										fill="currentColor"
+										viewBox="0 0 16 16"
+									>
+										<path
+											d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm3.354 4.646L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 1 1 .708-.708z"
+										/>
+									</svg>
+								</button>
+								<p class="carrito__producto-precio">$500.00</p>
+							</div>
+						</div>`;
+
+    return body;
+}
+
+//console.log(mostrarDataCarrito("Mario",2,2.5,rojo));
 /**Agregar producto al carrito */
 
 /**Nombre
@@ -151,21 +186,29 @@ const cantProducto = document.querySelector('#cantidad');
 const colores = document.getElementsByName('color');
 const sizes = document.getElementsByName('tamaño');
 
+const carritoBody = document.querySelector('.carrito__body');
 
 productContainer.addEventListener('click',(e)=>{
     if(e.target.closest('#agregar-al-carrito')){
-        console.log(nombreProducto);
-        console.log(cantProducto.value);
-        colores.forEach((color)=>{
-            if(color.checked === true){
-                console.log(color.value);
+        let color;
+        let size;
+        colores.forEach((c)=>{
+            if(c.checked === true){
+                color = c.value;
             }
         });
 
-        sizes.forEach((size)=>{
-            if(size.checked === true){
-                console.log(size.value);
+        sizes.forEach((s)=>{
+            if(s.checked === true){
+                size = s.value;
             }
         });
+
+    const body = mostrarDataCarrito(nombreProducto,cantProducto.value,color,size);
+    //console.log(body);
+
+    carritoBody.innerHTML = body;
+    abrirCarrito();
+
     }
 });
