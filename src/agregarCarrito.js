@@ -1,5 +1,9 @@
 import mostrarDataCarrito from "./mostrarDataCarrito";
 import { abrirCarrito } from "./abrirCarrito";
+
+import data from "./Data/productos";
+
+
 //console.log(mostrarDataCarrito("Mario",2,2.5,rojo));
 /**Agregar producto al carrito */
 
@@ -10,8 +14,15 @@ import { abrirCarrito } from "./abrirCarrito";
  * precio total, dos veces
  */
 
-
 const productContainer = document.querySelector('.producto__contenedor-info');
+const id = document.getElementById("producto").dataset.productoId;
+
+//console.log(id);
+const res = data.productos.find(obj=> obj.id == id);
+
+const precio = document.querySelector('.producto__precio');
+
+precio.innerHTML = `$${res.precio.toFixed(2)}`;
 
 const nombreProducto = document.querySelector('.producto__nombre').innerHTML;
 const cantProducto = document.querySelector('#cantidad');
@@ -21,8 +32,11 @@ const imagenActual = document.querySelector('.producto__imagen');
 const notificacion = document.getElementById('notificacion');
 const imagenNoti = notificacion.querySelector('img');
 
+const total = document.querySelector('.carrito__total');
+
+
 const linkCarrito = document.querySelector('.notificacion__link');
-//console.log(notificacion);
+
 
 const carritoBody = document.querySelector('.carrito__body');
 
@@ -42,7 +56,7 @@ productContainer.addEventListener('click',(e)=>{
             }
         });
 
-    const body = mostrarDataCarrito(nombreProducto,cantProducto.value,color,size,imagenActual.src);
+    const body = mostrarDataCarrito(nombreProducto,cantProducto.value,color,size,imagenActual.src,res.precio.toFixed(2));
     //console.log(body);
 
     carritoBody.innerHTML = body
@@ -55,6 +69,9 @@ productContainer.addEventListener('click',(e)=>{
         notificacion.classList.add('notificacion');
     }, 7000);
     //abrirCarrito();
+
+    const totalPrecio = parseInt(cantProducto.value) * res.precio.toFixed(2);
+    total.innerHTML = `$${totalPrecio.toFixed(2)}`;
 
     linkCarrito.addEventListener('click',()=>{
         abrirCarrito();

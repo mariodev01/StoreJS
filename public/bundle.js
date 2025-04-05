@@ -134,7 +134,7 @@ carrito.addEventListener('click',(e)=>{
     }
 });
 
-function mostrarDataCarrito(nombre,cantidad,color,size,imagenActiva){
+function mostrarDataCarrito(nombre,cantidad,color,size,imagenActiva,precio){
     const body = `<div class="carrito__producto">
 							<div class="carrito__producto-info">
 								<img src="${imagenActiva}" alt="" class="carrito__thumb" />
@@ -161,7 +161,7 @@ function mostrarDataCarrito(nombre,cantidad,color,size,imagenActiva){
 										/>
 									</svg>
 								</button>
-								<p class="carrito__producto-precio">$500.00</p>
+								<p class="carrito__producto-precio">$${precio}</p>
 							</div>
 						</div>`;
 
@@ -178,8 +178,15 @@ function mostrarDataCarrito(nombre,cantidad,color,size,imagenActiva){
  * precio total, dos veces
  */
 
-
 const productContainer = document.querySelector('.producto__contenedor-info');
+const id = document.getElementById("producto").dataset.productoId;
+
+//console.log(id);
+const res = data.productos.find(obj=> obj.id == id);
+
+const precio = document.querySelector('.producto__precio');
+
+precio.innerHTML = `$${res.precio.toFixed(2)}`;
 
 const nombreProducto = document.querySelector('.producto__nombre').innerHTML;
 const cantProducto = document.querySelector('#cantidad');
@@ -189,8 +196,11 @@ const imagenActual = document.querySelector('.producto__imagen');
 const notificacion = document.getElementById('notificacion');
 const imagenNoti = notificacion.querySelector('img');
 
+const total = document.querySelector('.carrito__total');
+
+
 const linkCarrito = document.querySelector('.notificacion__link');
-//console.log(notificacion);
+
 
 const carritoBody = document.querySelector('.carrito__body');
 
@@ -210,7 +220,7 @@ productContainer.addEventListener('click',(e)=>{
             }
         });
 
-    const body = mostrarDataCarrito(nombreProducto,cantProducto.value,color,size,imagenActual.src);
+    const body = mostrarDataCarrito(nombreProducto,cantProducto.value,color,size,imagenActual.src,res.precio.toFixed(2));
     //console.log(body);
 
     carritoBody.innerHTML = body;
@@ -223,6 +233,9 @@ productContainer.addEventListener('click',(e)=>{
         notificacion.classList.add('notificacion');
     }, 7000);
     //abrirCarrito();
+
+    const totalPrecio = parseInt(cantProducto.value) * res.precio.toFixed(2);
+    total.innerHTML = `$${totalPrecio.toFixed(2)}`;
 
     linkCarrito.addEventListener('click',()=>{
         abrirCarrito();

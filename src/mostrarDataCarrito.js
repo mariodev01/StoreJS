@@ -1,4 +1,4 @@
-export default function(nombre,cantidad,color,size,imagenActiva){
+export default function(nombre,cantidad,color,size,imagenActiva,precio){
     const body = `<div class="carrito__producto">
 							<div class="carrito__producto-info">
 								<img src="${imagenActiva}" alt="" class="carrito__thumb" />
@@ -25,7 +25,7 @@ export default function(nombre,cantidad,color,size,imagenActiva){
 										/>
 									</svg>
 								</button>
-								<p class="carrito__producto-precio">$500.00</p>
+								<p class="carrito__producto-precio">$${precio}</p>
 							</div>
 						</div>`
 
