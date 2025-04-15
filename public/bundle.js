@@ -109,13 +109,13 @@ const container = document.querySelector('.header__menu');
 
 const carrito = document.getElementById("carrito");
 
-const carritoBody$1 = carrito.querySelector('.carrito__body').querySelector('.carrito__aviso-sin-productos');
+const carritoBody = carrito.querySelector('.carrito__body').querySelector('.carrito__aviso-sin-productos');
 
 /**Mario, tienes que usar mas funciones. tu tira ese codigo asi plain xD */
 
 const abrirCarrito = ()=>{
     carrito.classList.add("carrito--active");
-    carritoBody$1.style.display = 'block';
+    carritoBody.style.display = 'block';
 };
 
 const cerrarCarrito = ()=>{
@@ -134,114 +134,20 @@ carrito.addEventListener('click',(e)=>{
     }
 });
 
-function mostrarDataCarrito(nombre,cantidad,color,size,imagenActiva,precio){
-    const body = `<div class="carrito__producto">
-							<div class="carrito__producto-info">
-								<img src="${imagenActiva}" alt="" class="carrito__thumb" />
-								<div>
-									<p class="carrito__producto-nombre">
-										<span class="carrito__producto-cantidad">${cantidad} x </span>${nombre}
-									</p>
-									<p class="carrito__producto-propiedades">
-										Tamaño:<span>${size}</span> Color:<span>${color}</span>
-									</p>
-								</div>
-							</div>
-							<div class="carrito__producto-contenedor-precio">
-								<button class="carrito__btn-eliminar-item" data-accion="eliminar-item-carrito">
-									<svg
-										xmlns="http://www.w3.org/2000/svg"
-										width="16"
-										height="16"
-										fill="currentColor"
-										viewBox="0 0 16 16"
-									>
-										<path
-											d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm3.354 4.646L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 1 1 .708-.708z"
-										/>
-									</svg>
-								</button>
-								<p class="carrito__producto-precio">$${precio}</p>
-							</div>
-						</div>`;
+const id = parseInt(document.getElementById('producto').dataset.productoId);
+const objeto = data.productos.find(obj=>obj.id === id);
+document.querySelector('.producto__precio').innerHTML =  `$${objeto.precio.toFixed(2)}`;
+const botonAgregar = document.getElementById('agregar-al-carrito');
 
-    return body;
-}
-
-//console.log(mostrarDataCarrito("Mario",2,2.5,rojo));
-/**Agregar producto al carrito */
-
-/**Nombre
- * cantidad
- * tamaño
- * color
- * precio total, dos veces
- */
-
-const productContainer = document.querySelector('.producto__contenedor-info');
-const id = document.getElementById("producto").dataset.productoId;
-
-//console.log(id);
-const res = data.productos.find(obj=> obj.id == id);
-
-const precio = document.querySelector('.producto__precio');
-
-precio.innerHTML = `$${res.precio.toFixed(2)}`;
-
-const nombreProducto = document.querySelector('.producto__nombre').innerHTML;
-const cantProducto = document.querySelector('#cantidad');
-const colores = document.getElementsByName('color');
-const sizes = document.getElementsByName('tamaño');
-const imagenActual = document.querySelector('.producto__imagen');
-const notificacion = document.getElementById('notificacion');
-const imagenNoti = notificacion.querySelector('img');
-
-const total = document.querySelector('.carrito__total');
+botonAgregar.addEventListener('click',()=>{
+    document.querySelector('.producto__nombre').innerHTML;
+    document.querySelector('#propiedad-color input:checked').value;
+    document.querySelector('#propiedad-tamaño input:checked').value;
+    parseInt(document.getElementById('cantidad').value);
+    objeto.precio;
+    document.querySelector('.producto__imagen').getAttribute('src');
 
 
-const linkCarrito = document.querySelector('.notificacion__link');
-
-
-const carritoBody = document.querySelector('.carrito__body');
-
-productContainer.addEventListener('click',(e)=>{
-    if(e.target.closest('#agregar-al-carrito')){
-        let color;
-        let size;
-        colores.forEach((c)=>{
-            if(c.checked === true){
-                color = c.value;
-            }
-        });
-
-        sizes.forEach((s)=>{
-            if(s.checked === true){
-                size = s.value;
-            }
-        });
-
-    const body = mostrarDataCarrito(nombreProducto,cantProducto.value,color,size,imagenActual.src,res.precio.toFixed(2));
-    //console.log(body);
-
-    carritoBody.innerHTML = body;
-
-    notificacion.classList.add('notificacion--active');
-    imagenNoti.src = imagenActual.src;
-
-    setTimeout(() => {
-        notificacion.classList.remove('notificacion--active');
-        notificacion.classList.add('notificacion');
-    }, 7000);
-    //abrirCarrito();
-
-    const totalPrecio = parseInt(cantProducto.value) * res.precio.toFixed(2);
-    total.innerHTML = `$${totalPrecio.toFixed(2)}`;
-
-    linkCarrito.addEventListener('click',()=>{
-        abrirCarrito();
-    });
-    /**tengo que hacer la logica de cuando sea un color diferente pos que se agregue otro producto y no se sobreescriba el que ya esta,
-     * agregar tambien el precio de la data, y que se calcule por la cantidad
-     */
-    }
+    /**Agregar funcionalidad de agregar al carrito y mostrarlo */
+    
 });
