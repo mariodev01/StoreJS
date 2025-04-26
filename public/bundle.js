@@ -107,19 +107,19 @@ container$1.addEventListener('click',(e)=>{
 
 const container = document.querySelector('.header__menu');
 
-const carrito = document.getElementById("carrito");
+const carrito$1 = document.getElementById("carrito");
 
-const carritoBody = carrito.querySelector('.carrito__body').querySelector('.carrito__aviso-sin-productos');
+const carritoBody$1 = carrito$1.querySelector('.carrito__body').querySelector('.carrito__aviso-sin-productos');
 
 /**Mario, tienes que usar mas funciones. tu tira ese codigo asi plain xD */
 
 const abrirCarrito = ()=>{
-    carrito.classList.add("carrito--active");
-    carritoBody.style.display = 'block';
+    carrito$1.classList.add("carrito--active");
+    carritoBody$1.style.display = 'block';
 };
 
 const cerrarCarrito = ()=>{
-    carrito.classList.remove("carrito--active");
+    carrito$1.classList.remove("carrito--active");
 };
 
 container.addEventListener('click',(e)=>{
@@ -128,26 +128,104 @@ container.addEventListener('click',(e)=>{
     }
 });
 
-carrito.addEventListener('click',(e)=>{
+carrito$1.addEventListener('click',(e)=>{
     if(e.target.closest('button').dataset.accion === "cerrar-carrito"){
         cerrarCarrito();
     }
 });
 
+function mostrarDataCarrito(nombre,cantidad,color,size,imagenActiva,precio){
+    const body = `<div class="carrito__producto">
+							<div class="carrito__producto-info">
+								<img src="${imagenActiva}" alt="" class="carrito__thumb" />
+								<div>
+									<p class="carrito__producto-nombre">
+										<span class="carrito__producto-cantidad">${cantidad} x </span>${nombre}
+									</p>
+									<p class="carrito__producto-propiedades">
+										Tamaño:<span>${size}</span> Color:<span>${color}</span>
+									</p>
+								</div>
+							</div>
+							<div class="carrito__producto-contenedor-precio">
+								<button class="carrito__btn-eliminar-item" data-accion="eliminar-item-carrito">
+									<svg
+										xmlns="http://www.w3.org/2000/svg"
+										width="16"
+										height="16"
+										fill="currentColor"
+										viewBox="0 0 16 16"
+									>
+										<path
+											d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm3.354 4.646L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 1 1 .708-.708z"
+										/>
+									</svg>
+								</button>
+								<p class="carrito__producto-precio">$${precio}</p>
+							</div>
+						</div>`;
+
+    return body;
+}
+
 const id = parseInt(document.getElementById('producto').dataset.productoId);
 const objeto = data.productos.find(obj=>obj.id === id);
 document.querySelector('.producto__precio').innerHTML =  `$${objeto.precio.toFixed(2)}`;
 const botonAgregar = document.getElementById('agregar-al-carrito');
+const carritoBody = document.querySelector('.carrito__body');
+const pMessage = document.querySelector('.carrito__aviso-sin-productos');
+const carrito = [];
+
 
 botonAgregar.addEventListener('click',()=>{
-    document.querySelector('.producto__nombre').innerHTML;
-    document.querySelector('#propiedad-color input:checked').value;
-    document.querySelector('#propiedad-tamaño input:checked').value;
-    parseInt(document.getElementById('cantidad').value);
-    objeto.precio;
-    document.querySelector('.producto__imagen').getAttribute('src');
+    const nombre = document.querySelector('.producto__nombre').innerHTML;
+    const color = document.querySelector('#propiedad-color input:checked').value;
+    const size = document.querySelector('#propiedad-tamaño input:checked').value;
+    const cantidad = parseInt(document.getElementById('cantidad').value);
+    const precio = objeto.precio;
+    const imagenActiva = document.querySelector('.producto__imagen').getAttribute('src');
+    const notificacion = document.getElementById('notificacion');
+    const imagenNoti = notificacion.querySelector('img');
 
+    const linkCarrito = document.querySelector('.notificacion__link');
 
-    /**Agregar funcionalidad de agregar al carrito y mostrarlo */
+    carrito.push({
+        Id:id,
+        Nombre:nombre,
+        Color:color,
+        Size:size,
+        Cantidad:cantidad,
+        Precio:precio,
+        Imagen:imagenActiva
+    });
     
+    const ultimoProducto = carrito[carrito.length - 1];
+
+    const {Id,Nombre,Color,Size,Cantidad,Precio,Imagen} = ultimoProducto;
+    
+    const body = mostrarDataCarrito(Nombre,Cantidad,Color,Size,Imagen,Precio);
+    if(carrito.length >0){
+        pMessage.style.display = 'none';
+    }
+    
+    carritoBody.innerHTML += body;
+
+
+    notificacion.classList.add('notificacion--active');
+    imagenNoti.src = Imagen;
+    setTimeout(() => {
+        notificacion.classList.remove('notificacion--active');
+        notificacion.classList.add('notificacion');
+    }, 7000);
+    //abrirCarrito();
+
+    linkCarrito.addEventListener('click',()=>{
+        abrirCarrito();
+    });
+
+    //console.log(carrito.length);
+    //console.log(carrito);
+
+    /**Destructurar ultimoProducto y usar el metodo de mostrarDataCarrito */
+    //mostrarData(ultimoProducto);
 });
