@@ -25,21 +25,25 @@ botonAgregar.addEventListener('click',()=>{
 
     const linkCarrito = document.querySelector('.notificacion__link');
 
-    const ultimoProducto = carrito[carrito.length - 1];
+        if(carrito.length<=0){
+            carrito.push({
+                Id:id,
+                Nombre:nombre,
+                Color:color,
+                Size:size,
+                Cantidad:cantidad,
+                Precio:precio,
+                Imagen:imagenActiva
+            });
+                    
+        
+        /**la logica es simple, si no existe ningun producto en el carrito entonces insertalo
+         * si existe un producto en el carrito primero evalua a ver si ya hay uno igual,si hay uno igual
+         * queda modificar el existente, sino entonces agregalo aparte
+         */
 
 
-    const carritoitem = carrito.find(c=>c.Color === ultimoProducto.Color && c.Size == ultimoProducto.Size);
-
-    if(!carritoitem){
-        carrito.push({
-            Id:id,
-            Nombre:nombre,
-            Color:color,
-            Size:size,
-            Cantidad:cantidad,
-            Precio:precio,
-            Imagen:imagenActiva
-        }); 
+        const ultimoProducto = carrito[carrito.length - 1];
 
         const {Id,Nombre,Color,Size,Cantidad,Precio,Imagen} = ultimoProducto;
         total = total + (Cantidad * Precio);
@@ -66,20 +70,65 @@ botonAgregar.addEventListener('click',()=>{
         linkCarrito.addEventListener('click',()=>{
             abrirCarrito();
         });
-    };
-    //console.log(carritoitem);
 
-    
-    
+    }else{
+        const isExist = carrito.find(c=>c.Color === color);
 
-    /**tengo que comparar dos productos, si son iguales pos que se sumen la cantidad. entonces
-     * por la forma que tengo de saber que son productos iguakes es si tienen mismo nombre,color y size
-     */
+        if(isExist === undefined){
+            console.log("No existe, por lo tanto se puede insertar");
+            carrito.push({
+                Id:id,
+                Nombre:nombre,
+                Color:color,
+                Size:size,
+                Cantidad:cantidad,
+                Precio:precio,
+                Imagen:imagenActiva
+            });
+                    
+        
+        /**la logica es simple, si no existe ningun producto en el carrito entonces insertalo
+         * si existe un producto en el carrito primero evalua a ver si ya hay uno igual,si hay uno igual
+         * queda modificar el existente, sino entonces agregalo aparte
+         */
 
 
-    /**Verificar la forma de agregar, ese carrito porque se tan agregando todo de nuevo y no uno por uno */
+        const ultimoProducto = carrito[carrito.length - 1];
 
-    
+        const {Id,Nombre,Color,Size,Cantidad,Precio,Imagen} = ultimoProducto;
+        total = total + (Cantidad * Precio);
+
+        //Asignar la variable total al html tag de total
+
+        totalTag.innerHTML = `$${total.toFixed(2)}`;
+
+        const body = mostrarDataCarrito(Nombre,Cantidad,Color,Size,Imagen,Precio);
+        if(carrito.length >0){
+            pMessage.style.display = 'none';
+        }
+        
+        carritoBody.innerHTML += body
+
+        notificacion.classList.add('notificacion--active');
+        imagenNoti.src = Imagen;
+        setTimeout(() => {
+            notificacion.classList.remove('notificacion--active');
+            notificacion.classList.add('notificacion');
+        }, 10000);
+        //abrirCarrito();
+
+        linkCarrito.addEventListener('click',()=>{
+            abrirCarrito();
+        });
+        }else{
+            console.log("existe, asi que hay que modificar");
+            console.log(isExist);
+            isExist.Cantidad = cantidad + isExist.Cantidad;
+            console.log("Se modifico, verifica");
+
+            console.log(isExist);
+        }
+    }
 });
 
 
