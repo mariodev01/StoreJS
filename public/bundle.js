@@ -3,11 +3,11 @@
 var data = {
     productos :[
         {
-            id: 1,
+            id: '1',
             nombre: "Tennis Converse Standard.",
             descripcion: "Lorem ipsum dolor sit amet.",
-            precio: 500.00,
-            colores : ['Negro','Rojo','Amarillo'],
+            precio: 500.0,
+            colores : ['negro','rojo','amarillo'],
             size: ['1,5','2','2,5','3','3,5','4'],
             fotos:
             [
@@ -107,192 +107,133 @@ container$1.addEventListener('click',(e)=>{
 
 const container = document.querySelector('.header__menu');
 
-const carrito$1 = document.getElementById("carrito");
+const carrito = document.getElementById("carrito");
 
-const carritoBody$1 = carrito$1.querySelector('.carrito__body').querySelector('.carrito__aviso-sin-productos');
+carrito.querySelector('.carrito__body').querySelector('.carrito__aviso-sin-productos');
+
+const botonAgregar = document.getElementById('agregar-al-carrito');
+
+const producto = document.getElementById('producto');
+
+const carritoC = [];
+
+const formatoMoneda = new Intl.NumberFormat('es-DO', {
+  style: 'currency',
+  currency: 'DOP'
+});
+
 
 /**Mario, tienes que usar mas funciones. tu tira ese codigo asi plain xD */
 
 const abrirCarrito = ()=>{
-    carrito$1.classList.add("carrito--active");
-    carritoBody$1.style.display = 'block';
+    carrito.classList.add("carrito--active");
+
+    const productosAnteriores = document.querySelectorAll('.carrito__producto');
+
+    productosAnteriores.forEach((p)=>p.remove());
+
+    carritoC.forEach((c)=>{
+
+        const producto = data.productos.find((obj=>obj.id == c.id));
+
+        const precioPorCantidad = producto.precio * parseInt(c.cantidad);
+
+        const contenedorProducto = document.createElement('div');
+
+        const plantillaProducto = `							
+            <div class="carrito__producto-info">
+                <img src="${c.imagen}" alt="" class="carrito__thumb" />
+                <div>
+                    <p class="carrito__producto-nombre">
+                        <span class="carrito__producto-cantidad">${c.cantidad} x </span>${c.nombre}
+                    </p>
+                    <p class="carrito__producto-propiedades">
+                        Tamaño:<span>${c.tamanio}</span> Color:<span>${c.color}</span>
+                    </p>
+                </div>
+            </div>
+            <div class="carrito__producto-contenedor-precio">
+                <button class="carrito__btn-eliminar-item" data-accion="eliminar-item-carrito">
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        fill="currentColor"
+                        viewBox="0 0 16 16"
+                    >
+                        <path
+                            d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm3.354 4.646L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 1 1 .708-.708z"
+                        />
+                    </svg>
+                </button>
+                <p class="carrito__producto-precio">${formatoMoneda.format(precioPorCantidad)}</p>
+            </div>
+        `;
+
+        contenedorProducto.classList.add('carrito__producto');
+
+        contenedorProducto.innerHTML = plantillaProducto;
+
+        
+        carrito.querySelector('.carrito__body').appendChild(contenedorProducto);
+
+    });
 };
 
 const cerrarCarrito = ()=>{
-    carrito$1.classList.remove("carrito--active");
+    carrito.classList.remove("carrito--active");
 };
 
 container.addEventListener('click',(e)=>{
     if(e.target.dataset.accion === "abrir-carrito"){
         abrirCarrito();
+        const mensaje = document.querySelector('.carrito__aviso-sin-productos');
+        const hideDiv = document.querySelector('.carrito__contenedor-total');
+        const showDiv = document.querySelector('.carrito__contenedor-btn-regresar');
+        //console.log(carritoC);
+
+        if (carritoC.length > 0){
+            mensaje.style.display = "none";
+            hideDiv.style.display = "flex";
+            showDiv.style.display = "none";
+        }else {
+            mensaje.style.display = "block";
+            hideDiv.style.display = "none";
+            showDiv.style.display = "flex";
+        }
+
     }
 });
 
-carrito$1.addEventListener('click',(e)=>{
-    if(e.target.closest('button').dataset.accion === "cerrar-carrito"){
+carrito.addEventListener('click',(e)=>{
+    const closestDiv = e.target.closest('div');
+    const closestButton = e.target.closest('button');
+
+    if((closestDiv && closestDiv.dataset.accion === "cerrar-carrito") || (closestButton && closestButton.dataset.accion === "cerrar-carrito") ){
         cerrarCarrito();
     }
 });
 
-function mostrarDataCarrito(nombre,cantidad,color,size,imagenActiva,precio){
-    const body = `<div class="carrito__producto">
-							<div class="carrito__producto-info">
-								<img src="${imagenActiva}" alt="" class="carrito__thumb" />
-								<div>
-									<p class="carrito__producto-nombre">
-										<span class="carrito__producto-cantidad">${cantidad} x </span>${nombre}
-									</p>
-									<p class="carrito__producto-propiedades">
-										Tamaño:<span>${size}</span> Color:<span>${color}</span>
-									</p>
-								</div>
-							</div>
-							<div class="carrito__producto-contenedor-precio">
-								<button class="carrito__btn-eliminar-item" data-accion="eliminar-item-carrito">
-									<svg
-										xmlns="http://www.w3.org/2000/svg"
-										width="16"
-										height="16"
-										fill="currentColor"
-										viewBox="0 0 16 16"
-									>
-										<path
-											d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm3.354 4.646L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 1 1 .708-.708z"
-										/>
-									</svg>
-								</button>
-								<p class="carrito__producto-precio">$${precio}</p>
-							</div>
-						</div>`;
-
-    return body;
-}
-
-const id = parseInt(document.getElementById('producto').dataset.productoId);
-const objeto = data.productos.find(obj=>obj.id === id);
-document.querySelector('.producto__precio').innerHTML =  `$${objeto.precio.toFixed(2)}`;
-const botonAgregar = document.getElementById('agregar-al-carrito');
-const carritoBody = document.querySelector('.carrito__body');
-const pMessage = document.querySelector('.carrito__aviso-sin-productos');
-const carrito = [];
-let total = 0;
-
-const totalTag = document.querySelector('.carrito__total');
-
 botonAgregar.addEventListener('click',()=>{
+    const idProducto = producto.dataset.productoId;
+    const cantidadProd = producto.querySelector('#cantidad').value;
     const nombre = document.querySelector('.producto__nombre').innerHTML;
     const color = document.querySelector('#propiedad-color input:checked').value;
     const size = document.querySelector('#propiedad-tamaño input:checked').value;
-    const cantidad = parseInt(document.getElementById('cantidad').value);
-    const precio = objeto.precio;
     const imagenActiva = document.querySelector('.producto__imagen').getAttribute('src');
-    const notificacion = document.getElementById('notificacion');
-    const imagenNoti = notificacion.querySelector('img');
 
-    const linkCarrito = document.querySelector('.notificacion__link');
+    const exist = carritoC.find(c=>c.id == idProducto && c.color == color && c.tamanio == size);
 
-        if(carrito.length<=0){
-            carrito.push({
-                Id:id,
-                Nombre:nombre,
-                Color:color,
-                Size:size,
-                Cantidad:cantidad,
-                Precio:precio,
-                Imagen:imagenActiva
-            });
-                    
-        
-        /**la logica es simple, si no existe ningun producto en el carrito entonces insertalo
-         * si existe un producto en el carrito primero evalua a ver si ya hay uno igual,si hay uno igual
-         * queda modificar el existente, sino entonces agregalo aparte
-         */
-
-
-        const ultimoProducto = carrito[carrito.length - 1];
-
-        const {Id,Nombre,Color,Size,Cantidad,Precio,Imagen} = ultimoProducto;
-        total = total + (Cantidad * Precio);
-
-        //Asignar la variable total al html tag de total
-
-        totalTag.innerHTML = `$${total.toFixed(2)}`;
-
-        const body = mostrarDataCarrito(Nombre,Cantidad,Color,Size,Imagen,Precio);
-        if(carrito.length >0){
-            pMessage.style.display = 'none';
-        }
-        
-        carritoBody.innerHTML += body;
-
-        notificacion.classList.add('notificacion--active');
-        imagenNoti.src = Imagen;
-        setTimeout(() => {
-            notificacion.classList.remove('notificacion--active');
-            notificacion.classList.add('notificacion');
-        }, 10000);
-        //abrirCarrito();
-
-        linkCarrito.addEventListener('click',()=>{
-            abrirCarrito();
+    if(exist === undefined){
+        carritoC.push({
+        id:idProducto,
+        nombre:nombre,
+        cantidad:cantidadProd,
+        color:color,
+        tamanio:size,
+        imagen:imagenActiva
         });
-
     }else {
-        const isExist = carrito.find(c=>c.Color === color);
-
-        if(isExist === undefined){
-            console.log("No existe, por lo tanto se puede insertar");
-            carrito.push({
-                Id:id,
-                Nombre:nombre,
-                Color:color,
-                Size:size,
-                Cantidad:cantidad,
-                Precio:precio,
-                Imagen:imagenActiva
-            });
-                    
-        
-        /**la logica es simple, si no existe ningun producto en el carrito entonces insertalo
-         * si existe un producto en el carrito primero evalua a ver si ya hay uno igual,si hay uno igual
-         * queda modificar el existente, sino entonces agregalo aparte
-         */
-
-
-        const ultimoProducto = carrito[carrito.length - 1];
-
-        const {Id,Nombre,Color,Size,Cantidad,Precio,Imagen} = ultimoProducto;
-        total = total + (Cantidad * Precio);
-
-        //Asignar la variable total al html tag de total
-
-        totalTag.innerHTML = `$${total.toFixed(2)}`;
-
-        const body = mostrarDataCarrito(Nombre,Cantidad,Color,Size,Imagen,Precio);
-        if(carrito.length >0){
-            pMessage.style.display = 'none';
-        }
-        
-        carritoBody.innerHTML += body;
-
-        notificacion.classList.add('notificacion--active');
-        imagenNoti.src = Imagen;
-        setTimeout(() => {
-            notificacion.classList.remove('notificacion--active');
-            notificacion.classList.add('notificacion');
-        }, 10000);
-        //abrirCarrito();
-
-        linkCarrito.addEventListener('click',()=>{
-            abrirCarrito();
-        });
-        }else {
-            console.log("existe, asi que hay que modificar");
-            console.log(isExist);
-            isExist.Cantidad = cantidad + isExist.Cantidad;
-            console.log("Se modifico, verifica");
-
-            console.log(isExist);
-        }
+        exist.cantidad = parseInt(cantidadProd) + parseInt(exist.cantidad);
     }
 });

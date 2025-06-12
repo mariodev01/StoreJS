@@ -1,11 +1,11 @@
 export default {
     productos :[
         {
-            id: 1,
+            id: '1',
             nombre: "Tennis Converse Standard.",
             descripcion: "Lorem ipsum dolor sit amet.",
-            precio: 500.00,
-            colores : ['Negro','Rojo','Amarillo'],
+            precio: 500.0,
+            colores : ['negro','rojo','amarillo'],
             size: ['1,5','2','2,5','3','3,5','4'],
             fotos:
             [
