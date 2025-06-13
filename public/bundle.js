@@ -153,7 +153,8 @@ const abrirCarrito = ()=>{
                 </div>
             </div>
             <div class="carrito__producto-contenedor-precio">
-                <button class="carrito__btn-eliminar-item" data-accion="eliminar-item-carrito">
+                <button class="carrito__btn-eliminar-item" data-accion="eliminar-item-carrito" data-id=${c.id}
+                data-size=${c.tamanio} data-color=${c.color}>
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="16"
@@ -235,5 +236,29 @@ botonAgregar.addEventListener('click',()=>{
         });
     }else {
         exist.cantidad = parseInt(cantidadProd) + parseInt(exist.cantidad);
+    }
+});
+
+carrito.addEventListener('click',(e)=>{
+    const eliminarItem = e.target.closest('button');
+
+    if(eliminarItem && eliminarItem.dataset.accion === "eliminar-item-carrito"){
+
+        const id = eliminarItem.dataset.id;
+        const size = eliminarItem.dataset.size;
+        const color = eliminarItem.dataset.color;
+
+        const exists = carritoC.find(obj=>obj.tamanio == size && obj.color == color && obj.id == id);
+
+        if(exists !== undefined){
+            const index = carritoC.indexOf(exists);
+            carritoC.splice(index,1);
+            abrirCarrito();
+        }else {
+            console.log("No existe elemento para borrar");
+        }
+        //const datos = e.target.closest('p .carrito__producto-propiedades')
+
+        //console.log(datos);
     }
 });
