@@ -8,7 +8,11 @@ const botonAgregar = document.getElementById('agregar-al-carrito');
 
 const producto = document.getElementById('producto');
 
+const total = document.querySelector('.carrito__total');
+
 const carritoC = [];
+
+let sum = 0;
 
 import data from "./Data/productos";
 
@@ -26,6 +30,20 @@ const abrirCarrito = ()=>{
     const productosAnteriores = document.querySelectorAll('.carrito__producto');
 
     productosAnteriores.forEach((p)=>p.remove());
+
+        const mensaje = document.querySelector('.carrito__aviso-sin-productos');
+        const hideDiv = document.querySelector('.carrito__contenedor-total');
+        const showDiv = document.querySelector('.carrito__contenedor-btn-regresar');
+
+        if (carritoC.length > 0){
+            mensaje.style.display = "none";
+            hideDiv.style.display = "flex";
+            showDiv.style.display = "none";
+        }else{
+            mensaje.style.display = "block";
+            hideDiv.style.display = "none";
+            showDiv.style.display = "flex";
+        }
 
     carritoC.forEach((c)=>{
 
@@ -66,14 +84,21 @@ const abrirCarrito = ()=>{
             </div>
         `;
 
+        
+
+        
+        
+
         contenedorProducto.classList.add('carrito__producto');
 
         contenedorProducto.innerHTML = plantillaProducto;
 
         
-        carrito.querySelector('.carrito__body').appendChild(contenedorProducto)
+        carrito.querySelector('.carrito__body').appendChild(contenedorProducto);
 
-    })
+        sum = sum+ precioPorCantidad;
+
+    });
 };
 
 const cerrarCarrito = ()=>{
@@ -83,21 +108,7 @@ const cerrarCarrito = ()=>{
 container.addEventListener('click',(e)=>{
     if(e.target.dataset.accion === "abrir-carrito"){
         abrirCarrito();
-        const mensaje = document.querySelector('.carrito__aviso-sin-productos');
-        const hideDiv = document.querySelector('.carrito__contenedor-total');
-        const showDiv = document.querySelector('.carrito__contenedor-btn-regresar');
-        //console.log(carritoC);
-
-        if (carritoC.length > 0){
-            mensaje.style.display = "none";
-            hideDiv.style.display = "flex";
-            showDiv.style.display = "none";
-        }else{
-            mensaje.style.display = "block";
-            hideDiv.style.display = "none";
-            showDiv.style.display = "flex";
-        }
-
+        //console.log("Hola");
     }
 });
 
@@ -149,11 +160,6 @@ carrito.addEventListener('click',(e)=>{
             const index = carritoC.indexOf(exists);
             carritoC.splice(index,1);
             abrirCarrito();
-        }else{
-            console.log("No existe elemento para borrar");
-        }
-        //const datos = e.target.closest('p .carrito__producto-propiedades')
-
-        //console.log(datos);
+        };
     }
 });
