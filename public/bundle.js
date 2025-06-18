@@ -115,7 +115,7 @@ const botonAgregar = document.getElementById('agregar-al-carrito');
 
 const producto = document.getElementById('producto');
 
-document.querySelector('.carrito__total');
+const totalTag = document.querySelector('.carrito__total');
 
 const carritoC = [];
 
@@ -123,6 +123,7 @@ const formatoMoneda = new Intl.NumberFormat('es-DO', {
   style: 'currency',
   currency: 'DOP'
 });
+
 
 
 /**Mario, tienes que usar mas funciones. tu tira ese codigo asi plain xD */
@@ -187,19 +188,27 @@ const abrirCarrito = ()=>{
             </div>
         `;
 
-        
-
-        
-        
-
         contenedorProducto.classList.add('carrito__producto');
 
         contenedorProducto.innerHTML = plantillaProducto;
 
-        
         carrito.querySelector('.carrito__body').appendChild(contenedorProducto);
 
+        let total = 0;
+
+        carritoC.forEach((p)=>{
+            total = total + (parseInt(p.cantidad) * producto.precio);
+        });
+
+
+        //console.log(total);
+        // sum = sum+ precioPorCantidad;
+
+        totalTag.innerHTML = `${formatoMoneda.format(total)}`;
+        // console.log(sum);
     });
+
+    
 };
 
 const cerrarCarrito = ()=>{
@@ -209,7 +218,6 @@ const cerrarCarrito = ()=>{
 container.addEventListener('click',(e)=>{
     if(e.target.dataset.accion === "abrir-carrito"){
         abrirCarrito();
-        //console.log("Hola");
     }
 });
 
