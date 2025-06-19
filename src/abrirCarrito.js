@@ -20,7 +20,6 @@ const formatoMoneda = new Intl.NumberFormat('es-DO', {
 });
 
 
-
 /**Mario, tienes que usar mas funciones. tu tira ese codigo asi plain xD */
 
 const abrirCarrito = ()=>{
@@ -94,16 +93,9 @@ const abrirCarrito = ()=>{
         carritoC.forEach((p)=>{
             total = total + (parseInt(p.cantidad) * producto.precio)
         });
-
-
-        //console.log(total);
-        // sum = sum+ precioPorCantidad;
-
-        totalTag.innerHTML = `${formatoMoneda.format(total)}`
-        // console.log(sum);
+        
+        totalTag.innerHTML = `${formatoMoneda.format(total)}`;
     });
-
-    
 };
 
 const cerrarCarrito = ()=>{
@@ -132,6 +124,28 @@ botonAgregar.addEventListener('click',()=>{
     const color = document.querySelector('#propiedad-color input:checked').value
     const size = document.querySelector('#propiedad-tamaño input:checked').value
     const imagenActiva = document.querySelector('.producto__imagen').getAttribute('src');
+
+    const notificacion = document.getElementById('notificacion');
+
+    notificacion.addEventListener('click',(e)=>{
+        const boton = e.target.closest('.notificacion__link')
+
+        if(boton && boton.dataset.accion === "abrir-carrito"){
+           abrirCarrito();
+        }
+    });
+
+    const imagenNoti = notificacion.querySelector('.notificacion__thumb');
+
+    notificacion.classList.add('notificacion--active');
+
+    imagenNoti.src= imagenActiva;
+
+    //console.log(notificacion);
+
+    setTimeout(()=>{
+        notificacion.classList.remove('notificacion--active');
+    },5000)
 
     const exist = carritoC.find(c=>c.id == idProducto && c.color == color && c.tamanio == size)
 
