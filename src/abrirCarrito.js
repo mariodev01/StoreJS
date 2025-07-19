@@ -10,6 +10,10 @@ const producto = document.getElementById('producto');
 
 const totalTag = document.querySelector('.carrito__total');
 
+const footer = document.getElementById('mas-informacion');
+
+const tabs = footer.querySelector('.tabs');
+
 const carritoC = [];
 
 import data from "./Data/productos";
@@ -180,4 +184,42 @@ carrito.addEventListener('click',(e)=>{
             abrirCarrito();
         };
     }
+});
+
+tabs.addEventListener('click',(e)=>{
+    const tab = e.target.closest('button');
+
+    if(tab){
+        const tabCaracteristica = document.getElementById("caracteristicas");
+
+        const tabResenias = document.getElementById("reseñas");
+
+        const tabEnvio = document.getElementById("envio");
+
+        switch (tab.dataset.tab) {
+            case 'caracteristicas':
+                //tab.classList.add('tabs__button--active');
+                tabCaracteristica.classList.add('tab--active');
+                tabResenias.classList.remove('tab--active');
+                tabEnvio.classList.remove('tab--active');
+                break;
+            case 'reseñas':
+                //tab.classList.add('tabs__button--active');
+
+                tabCaracteristica.classList.remove('tab--active');
+                tabResenias.classList.add('tab--active');
+                tabEnvio.classList.remove('tab--active');
+                break;
+            case 'envio':
+                //tab.classList.add('tabs__button--active');
+
+                tabCaracteristica.classList.remove('tab--active');
+                tabResenias.classList.remove('tab--active');
+                tabEnvio.classList.add('tab--active');
+                break;
+            default:
+                break;
+        }
+    }
+
 });
